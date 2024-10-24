@@ -1,6 +1,6 @@
 import json
 import os
-import os.path
+from pathlib import Path
 import vapoursynth as vs
 
 src_fps = container_fps
@@ -74,11 +74,11 @@ core = vs.core
 core.num_threads = (os.cpu_count() or 2) * 2
 core.max_cache_size = 8192
 
-basedir = os.path.dirname(os.path.abspath(__file__))
+basedir = Path(__file__).resolve().parent
 if not hasattr(core,'svp1'):
-    core.std.LoadPlugin(basedir + os.sep + "svpflow1_vs.dll")
+    core.std.LoadPlugin(basedir / "svpflow1_vs.dll")
 if not hasattr(core,'svp2'):
-    core.std.LoadPlugin(basedir + os.sep + "svpflow2_vs.dll")
+    core.std.LoadPlugin(basedir / "svpflow2_vs.dll")
 
 highbit = video_in.format.bits_per_sample >= 10
 if highbit and video_in_dw * video_in_dh * src_fps <= 3840 * 2160 * 30:
