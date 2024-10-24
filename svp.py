@@ -58,7 +58,7 @@ raw["smoothfps"].setdefault("light", {})["aspect"] = win_w / (win_h or 1)
 
 Path("C:/Users/Lambda/t.json").write_text(json.dumps(raw, indent=4))
 
-# TODO: dupe frame removal, fps mode, light settings
+# TODO: fps mode, light settings
 
 core = vs.core
 core.num_threads = ((os.cpu_count() or 2) * 2) - 1
@@ -73,13 +73,18 @@ if not hasattr(core,'svp1'):
 if not hasattr(core,'svp2'):
     core.std.LoadPlugin(basedir / "svpflow2_vs.dll")
 
-highbit = video_in.format.bits_per_sample >= 10
+if options["Miscellaneous"]["Duplicate frames removal"]:
+    clip = core.std.SelectEvery(video_in,2,0).std.Trim(length=5000000)
+else:
+    clip = video_in.std.Trim(length=5000000)
+
+highbit = clip.format.bits_per_sample >= 10
 if highbit and video_in_dw * video_in_dh * src_fps <= 3840 * 2160 * 30:
-    input_um = video_in.resize.Point(format=vs.YUV420P10,dither_type="random")
+    input_um = clip.resize.Point(format=vs.YUV420P10,dither_type="random")
     input_m = input_um
     input_m8 = input_m.resize.Point(format=vs.YUV420P8)
 else:  # no 10 bit decoding
-    input_um = video_in.resize.Point(format=vs.YUV420P8,dither_type="random")
+    input_um = clip.resize.Point(format=vs.YUV420P8,dither_type="random")
     input_m = input_um
     input_m8 = input_m
 
