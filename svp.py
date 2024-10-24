@@ -2,6 +2,16 @@ import json
 import os
 from pathlib import Path
 import vapoursynth as vs
+from contextlib import suppress
+
+def deep_merge(source: dict, destination: dict) -> dict:
+    for key, value in source.items():
+        if isinstance(value, dict):
+            node = destination.setdefault(key, {})
+            deep_merge(value, node)
+        else:
+            destination[key] = value
+    return destination
 
 basedir = Path(__file__).resolve().parent
 
@@ -20,26 +30,43 @@ win_w, win_h = display_res
 #win_w, win_h = user_data.split("/")
 #win_w, win_h = int(win_w), int(win_h)
 
-# SVP slider min (film, no artifact masking, to screen)
-# super_params     = "{scale:{up:0},gpu:1,rc:true}"
-# analyse_params = "{main:{search:{coarse:{distance:-8},type:2}}}"
-# smoothfps_params = "{gpuid:11,gpu_qn:2,rate:{num:5,den:2},algo:13,scene:{}}"
+options = json.loads((basedir / "base_options.json").read_text())
+map = json.loads((basedir / "equivalences.json").read_text())
+user = {}
+with suppress(FileNotFoundError):
+    user = json.loads((basedir / "user_options.json").read_text())
 
-# SVP slider max: same except for
-# analyse_params = "{main:{search:{coarse:{distance:-8,bad:{sad:2000,range:24}},type:2}},refine:[{thsad:250}]}"
+deep_merge(user, options)
+raw = {}
+for section, stuff in options.items():
+    if section != "Overrides":
+        for key, value in stuff.items():
+            deep_merge(map[section][key].get(value, value), raw)
 
-# https://www.svp-team.com/wiki/Manual:SVPflow
-settings = json.loads((basedir / "settings.json").read_text())
-settings.setdefault("smoothfps", {}).setdefault("rate", {}).update({
+gpu_id_opt = options["Miscellaneous"]["GPU ID"]
+if gpu_id_opt != "Do not change":
+    raw["smoothfps"]["gpuid"] = gpu_id_opt
+
+deep_merge(options["Overrides"], raw)
+    
+raw["smoothfps"].setdefault("rate", {}).update({
     "num": screen_fps if use_screen_fps else factor,
     "den": 0,
     "abs": use_screen_fps,
 })
-settings["smoothfps"].setdefault("light", {})["aspect"] = win_w / (win_h or 1)
+raw["smoothfps"].setdefault("light", {})["aspect"] = win_w / (win_h or 1)
+
+Path("C:/Users/Lambda/t.json").write_text(json.dumps(raw, indent=4))
+
+# TODO: dupe frame removal, fps mode, light settings
 
 core = vs.core
-core.num_threads = (os.cpu_count() or 2) * 2
+core.num_threads = ((os.cpu_count() or 2) * 2) - 1
 core.max_cache_size = 8192
+
+thread_opt = options["Miscellaneous"]["Processing threads"]
+if thread_opt != "Do not change":
+    core.num_threads += int(thread_opt)
 
 if not hasattr(core,'svp1'):
     core.std.LoadPlugin(basedir / "svpflow1_vs.dll")
@@ -57,13 +84,13 @@ else:  # no 10 bit decoding
     input_m8 = input_m
 
 
-super = core.svp1.Super(input_m8, json.dumps(settings["super"]))
+super = core.svp1.Super(input_m8, json.dumps(raw["super"]))
 vectors = core.svp1.Analyse(
-    super["clip"], super["data"], input_m8, json.dumps(settings["analyse"]),
+    super["clip"], super["data"], input_m8, json.dumps(raw["analyse"]),
 )
 smooth = core.svp2.SmoothFps(
     input_m, super["clip"], super["data"], vectors["clip"], vectors["data"],
-    json.dumps(settings["smoothfps"]), src=input_um, fps=src_fps,
+    json.dumps(raw["smoothfps"]), src=input_um, fps=src_fps,
 )
 assume = core.std.AssumeFPS(
     smooth, fpsnum=smooth.fps_num, fpsden=smooth.fps_den,

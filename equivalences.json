@@ -1,0 +1,156 @@
+{
+    "Rendering": {
+        "Frame interpolation mode": {
+            "2m (min artifacts)": {"smoothfps": {"scene": {"mode": 2}}},
+            "1.5m (less artifacts)": {
+                "smoothfps": {"scene": {"limits": {"m1": 0, "m2": 0}}}
+            },
+            "1m (average mode)": {"smoothfps": {"scene": {"mode": 1}}},
+            "Adaptive": {},
+            "Uniform (max fluidity)": {"smoothfps": {"scene": {"mode": 0}}}
+        },
+        "Adaptative pattern": {
+            "Uniform - 1m - 1.5m": {},
+            "Uniform - 1m - 2m": {"smoothfps": {"scene": {"adaptive": 310}}},
+            "1m - 1.5m - 2m": {"smoothfps": {"scene": {"adaptive": 321}}},
+            "1m - 2m - 2m": {"smoothfps": {"scene": {"adaptive": 331}}}
+        },
+        "SVP Shader": {
+            "1. Fastest (slow PCs)": {
+                "analyse": {"vectors": 2},
+                "smoothfps": {"algo": 1}
+            },
+            "2. Sharp (anime)": {"smoothfps": {"algo": 2}},
+            "10. By blocks (CPU only)": {
+                "smoothfps": {"block": true, "algo": 11}
+            },
+            "11. Simple Light": {"smoothfps": {"algo": 11}},
+            "21. Simple": {
+                "smoothfps": {"mask": {"cover": 80}, "algo": 21}
+            },
+            "13. Standard": {},
+            "23. Complicated": {
+                "smoothfps": {"mask": {"cover": 80}, "algo": 23}
+            }
+        },
+        "Artifacts masking": {
+            "Disabled": {},
+            "Weakest": {"smoothfps": {"mask": {"area": 25}}},
+            "Weak": {"smoothfps": {"mask": {"area": 50}}},
+            "Average": {"smoothfps": {"mask": {"area": 100}}},
+            "Strong": {"smoothfps": {"mask": {"area": 200}}},
+            "Strongest": {"smoothfps": {"mask": {"area": 1000}}}
+        }
+    },
+    "Motion vectors": {
+        "Motion vectors precision": {
+            "Two pixels": {
+                "super": {"pel": 1},
+                "analyse": {"main": {"search": {"type": 4, "distance": 0}}}
+            },
+
+            "One pixel": {
+                "super": {"pel": 1},
+                "analyse": {"main": {"search": {"type": 2}}}
+            },
+            "Half pixel": {"analyse": {"main": {"search": {"type": 2}}}}
+        },
+        "Motion vectors grid": {
+            "32 px. Large 0": {"analyse": {"block": {"w": 32, "overlap": 0}}},
+            "28 px. Large 1": {"analyse": {"block": {"w": 32, "overlap": 1}}},
+            "24 px. Large 2": {"analyse": {"block": {"w": 32}}},
+            "16 px. Average 0": {"analyse": {"block": {"overlap": 0}}},
+            "14 px. Average 1": {"analyse": {"block": {"overlap": 1}}},
+            "12 px. Average 2": {},
+            "8 px. Small 0": {"analyse": {"block": {"w": 8, "overlap": 0}}},
+            "7 px. Small 1": {"analyse": {"block": {"w": 8, "overlap": 1}}},
+            "6 px. Small 2": {"analyse": {"block": {"w": 8}}}
+        },
+        "Decrease grid step": {
+            "Disabled": {},
+            "By two with local refinement": {
+                "analyse": {"refine": [{"thsad": 4000}]}
+            },
+            "By two with global refinement": {
+                "analyse": {"refine": [{"thsad": 250}]}
+            }
+        },
+        "Search radius": {
+            "Small and fast": {
+                "analyse": {"main": {"search": {"coarse": {
+                    "satd": false, 
+                    "type": 2, 
+                    "distance": -6
+                }}}}
+            },
+            "Small": {
+                "analyse": {"main": {"search": {"coarse": {
+                    "type": 2,
+                    "distance": -6
+                }}}}
+            },
+            "Average": {
+                "analyse": {"main": {"search": {"coarse": {"distance": -8}}}}
+            },
+            "Large": {
+                "analyse": {"main": {"search": {"coarse": {"distance": -12}}}}
+            }
+        },
+        "Wide search": {
+            "Disabled": {
+                "analyse": {"main": {"search": {"coarse": {"bad": {
+                    "range": 0
+                }}}}}
+            },
+            "Average": {},
+            "Strong": {
+                "analyse": {"main": {"search": {"coarse": {"bad": {
+                    "sad": 2000,
+                    "range": 24
+                }}}}}
+            },
+            "Strongest": {
+                "analyse": {"main": {"search": {"coarse": {"bad": {
+                    "sad": 2000
+                }}}}}
+            }
+        },
+        "Width of top coarse level": {
+            "Small": {
+                "analyse": {"main": {"search": {"coarse": {"width": 260}}}}
+            },
+            "Average": {
+                "analyse": {"main": {"search": {"coarse": {"width": 530}}}}
+            },
+            "Large": {}
+        },
+        "Use NVIDIA Optical Flow (64-bit only)": {
+            "Allow": {},
+            "Don't use": {}
+        }
+    },
+    "Miscellaneous": {
+        "Processing of scene changes": {
+            "Repeat frame": {},
+            "Blend adjacent frames": {"smoothfps": {"blend": true}}
+        },
+        "Duplicate frames removal": {
+            "Do not remove": {},
+            "Remove every other frame": {}
+        },
+        "GPU acceleration": {
+            "Allow": {"super": {"gpu": 1}},
+            "Disable": {}
+        },
+        "GPU ID": {"Do not change": {}},
+        "Processing threads": {
+            "-6": {}, 
+            "-4": {}, 
+            "-2": {}, 
+            "Do not change": {},
+            "+2": {}, 
+            "+4": {}, 
+            "+6": {}
+        }
+    }
+}

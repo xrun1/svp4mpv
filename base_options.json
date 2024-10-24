@@ -1,0 +1,29 @@
+{
+    "Rendering": {
+        "Frame interpolation mode": "Adaptive",
+        "Adaptative pattern": "Uniform - 1m - 1.5m",
+        "SVP Shader": "13. Standard",
+        "Artifacts masking": "Average"
+    },
+    "Motion vectors": {
+        "Motion vectors precision": "Half pixel",
+        "Motion vectors grid": "12 px. Average 2",
+        "Decrease grid step": "Disabled",
+        "Search radius": "Average",
+        "Wide search": "Average",
+        "Width of top coarse level": "Large",
+        "Use NVIDIA Optical Flow (64-bit only)": "Don't use"
+    },
+    "Miscellaneous": {
+        "Processing of scene changes": "Repeat frame",
+        "Duplicate frames removal": "Do not remove",
+        "GPU acceleration": "Allow",
+        "GPU ID": "Do not change",
+        "Processing threads": "Do not change"
+    },
+    "Overrides": {
+        "super": {},
+        "analyse": {},
+        "smoothfps": {}
+    }
+}
