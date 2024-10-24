@@ -3,6 +3,8 @@ import os
 from pathlib import Path
 import vapoursynth as vs
 
+basedir = Path(__file__).resolve().parent
+
 src_fps = container_fps
 if src_fps <= 0.1 or src_fps == 23.810:
     src_fps = 23.976
@@ -27,54 +29,18 @@ win_w, win_h = display_res
 # analyse_params = "{main:{search:{coarse:{distance:-8,bad:{sad:2000,range:24}},type:2}},refine:[{thsad:250}]}"
 
 # https://www.svp-team.com/wiki/Manual:SVPflow
-super_params = {
-    "pel": 1,
-    "gpu": 1,
-    "full": False,
-}
-analyse_params = {
-    "block": {"w": 32},
-    "main": {
-        "search": {
-            "distance": 0,
-            "coarse":{
-                "distance":- 12,
-                "bad": {"sad": 2000},
-            },
-        },
-    },
-    "refine": [{"thsad": 250}],
-}
-smoothfps_params = {
-    "rate": {
-        "num": screen_fps if use_screen_fps else factor,
-        "den": 0,
-        "abs": use_screen_fps,
-    },
-    "algo": 21,
-    "gpuid": 0,
-    "mask": {
-        "cover": 80,
-        "area": 0,  # SVP artifact masking: 0/50/100/200 (none/low/med/max)
-        "area_sharp": 1,
-    },
-    "scene":{
-        "mode":0,
-    },
-    "light": {
-        "aspect": win_w / (win_h or 1),
-        "lights": 10, 
-        "border": 16,
-        "length": 120,
-        "cell": 1,
-    },
-}
+settings = json.loads((basedir / "settings.json").read_text())
+settings.setdefault("smoothfps", {}).setdefault("rate", {}).update({
+    "num": screen_fps if use_screen_fps else factor,
+    "den": 0,
+    "abs": use_screen_fps,
+})
+settings["smoothfps"].setdefault("light", {})["aspect"] = win_w / (win_h or 1)
 
 core = vs.core
 core.num_threads = (os.cpu_count() or 2) * 2
 core.max_cache_size = 8192
 
-basedir = Path(__file__).resolve().parent
 if not hasattr(core,'svp1'):
     core.std.LoadPlugin(basedir / "svpflow1_vs.dll")
 if not hasattr(core,'svp2'):
@@ -91,13 +57,13 @@ else:  # no 10 bit decoding
     input_m8 = input_m
 
 
-super = core.svp1.Super(input_m8, json.dumps(super_params))
+super = core.svp1.Super(input_m8, json.dumps(settings["super"]))
 vectors = core.svp1.Analyse(
-    super["clip"], super["data"], input_m8, json.dumps(analyse_params),
+    super["clip"], super["data"], input_m8, json.dumps(settings["analyse"]),
 )
 smooth = core.svp2.SmoothFps(
     input_m, super["clip"], super["data"], vectors["clip"], vectors["data"],
-    json.dumps(smoothfps_params), src=input_um, fps=src_fps,
+    json.dumps(settings["smoothfps"]), src=input_um, fps=src_fps,
 )
 assume = core.std.AssumeFPS(
     smooth, fpsnum=smooth.fps_num, fpsden=smooth.fps_den,

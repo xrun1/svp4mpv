@@ -1,0 +1,44 @@
+{
+    "super": {
+        "pel": 1,
+        "gpu": 1,
+        "full": false
+    },
+    "analyse": {
+        "block": {"w": 32},
+        "main": {
+            "search": {
+                "distance": 0,
+                "coarse":{
+                    "distance": -12,
+                    "bad": {
+                        "sad": 2000
+                    }
+                }
+            }
+        },
+        "refine": [
+            {
+                "thsad": 250
+            }
+        ]
+    },
+    "smoothfps": {
+        "algo": 21,
+        "gpuid": 0,
+        "mask": {
+            "cover": 80,
+            "area": 0,
+            "area_sharp": 1
+        },
+        "scene":{
+            "mode":0
+        },
+        "light": {
+            "lights": 10, 
+            "border": 16,
+            "length": 120,
+            "cell": 1
+        }
+    }
+}
