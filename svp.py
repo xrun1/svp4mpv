@@ -15,17 +15,6 @@ def deep_merge(source: dict, destination: dict) -> dict:
 
 basedir = Path(__file__).resolve().parent
 
-src_fps = container_fps
-if src_fps <= 0.1 or src_fps == 23.810:
-    src_fps = 23.976
-    
-screen_fps = display_fps or 60
-factor = 1
-while src_fps * factor < screen_fps - 9:
-    factor += 1
-    
-use_screen_fps = src_fps * factor > screen_fps
-
 win_w, win_h = display_res
 #win_w, win_h = user_data.split("/")
 #win_w, win_h = int(win_w), int(win_h)
@@ -47,18 +36,39 @@ gpu_id_opt = options["Miscellaneous"]["GPU ID"]
 if gpu_id_opt != "Do not change":
     raw["smoothfps"]["gpuid"] = gpu_id_opt
 
-deep_merge(options["Overrides"], raw)
+src_fps = container_fps
+if src_fps <= 0.1 or src_fps == 23.810:
+    src_fps = 23.976
+    
+fa = options["Target FPS"]["Multiplicand"]
+fb = options["Target FPS"]["Multiplier"]
+to_fps = src_fps
+screen_fps = display_fps or 60
+
+if fa == "Video FPS":
+    if fb == "Auto":
+        factor = 1
+        while src_fps * factor < screen_fps - 9:
+            factor += 1
+
+        to_fps = src_fps * factor
+    else:
+        to_fps = src_fps * float(fb)
+elif fa == "Screen FPS":
+    to_fps = screen_fps * float(fb)
+else:
+    to_fps = float(fa.split(" FPS")[0]) * float(fb)
     
 raw["smoothfps"].setdefault("rate", {}).update({
-    "num": screen_fps if use_screen_fps else factor,
-    "den": 0,
-    "abs": use_screen_fps,
+    "num": to_fps * 10_000,
+    "den": 10_000,
+    "abs": True,
 })
 raw["smoothfps"].setdefault("light", {})["aspect"] = win_w / (win_h or 1)
+# TODO: light settings
 
+deep_merge(options["Overrides"], raw)
 Path("C:/Users/Lambda/t.json").write_text(json.dumps(raw, indent=4))
-
-# TODO: fps mode, light settings
 
 core = vs.core
 core.num_threads = ((os.cpu_count() or 2) * 2) - 1

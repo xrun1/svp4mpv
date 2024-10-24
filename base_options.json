@@ -1,4 +1,8 @@
 {
+    "Target FPS": {
+        "Multiplicand": "Video FPS",
+        "Multiplier": "Auto"
+    },
     "Rendering": {
         "Frame interpolation mode": "Adaptive",
         "Adaptative pattern": "Uniform - 1m - 1.5m",
