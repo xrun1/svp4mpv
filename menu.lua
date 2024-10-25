@@ -74,9 +74,9 @@ function Menu:make_osd()
         end
     end
 
-    osd:newline():text("[r] Reset selected")
     osd:newline():text("[s] Save settings")
-    osd:newline():text("[SPACE] Toggle SVP")
+        :tab():text(" [r] Reset selected")
+        :tab():text(" [SPACE] Toggle SVP")
     return osd
 end
 
