@@ -65,10 +65,9 @@ raw["smoothfps"].setdefault("rate", {}).update({
     "abs": True,
 })
 raw["smoothfps"].setdefault("light", {})["aspect"] = win_w / (win_h or 1)
-# TODO: light settings
+# TODO: light settings, NVOF, RIFE, 8/10bit options
 
 deep_merge(options["Overrides"], raw)
-Path("C:/Users/Lambda/t.json").write_text(json.dumps(raw, indent=4))
 
 core = vs.core
 core.num_threads = ((os.cpu_count() or 2) * 2) - 1
