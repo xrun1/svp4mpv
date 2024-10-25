@@ -52,11 +52,18 @@ function Menu:make_osd()
         for _, option in ipairs(section[2]) do
             local name = option[1]
             local value = self.config[H:snake_case(name)]
+            local skip = false
+            
+            if self.config.frame_interpolation_mode ~= "Adaptive" then
+                if name == "Adaptative pattern" then
+                    skip = true
+                end
+            end
 
-            if self.selected == i then
+            if self.selected == i and not skip then
                 osd:tab():selected(name):arrow('　🡠 ')
                     :selected(value):arrow(' 🡢'):newline()
-            else
+            elseif not skip then
                 osd:tab():item(name):arrow('　🡠 '):text(value)
                     :arrow(' 🡢'):newline()
             end
