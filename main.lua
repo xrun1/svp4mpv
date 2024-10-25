@@ -1,5 +1,40 @@
+local H = require('helpers')
+local Menu = require('menu')
+
 local timer = nil
 local stopped = false
+
+local menu_json = (os.getenv("TMPDIR") or "/tmp") .. "/svp_menu.json"
+local config_json = (os.getenv("TMPDIR") or "/tmp") .. "/svp_config.json"
+if H:on_windows() then
+    menu_json = os.getenv("LOCALAPPDATA") .. "\\Temp\\svp_menu.json"
+    config_json = os.getenv("LOCALAPPDATA") .. "\\Temp\\svp_config.json"
+end
+
+local config = {
+    multiplicand = "Video FPS",
+    multiplier = "Auto",
+    frame_interpolation_mode = "Adaptive",
+    adaptative_pattern = "Uniform - 1m - 1.5m",
+    svp_shader = "13. Standard",
+    artifacts_masking = "Average",
+    motion_vectors_precision = "Half pixel",
+    motion_vectors_grid = "12 px. Average 2",
+    decrease_grid_step = "Disabled",
+    search_radius = "Average",
+    wide_search = "Average",
+    width_of_top_coarse_level = "Large",
+    use_nvidia_optical_flow = "Don't use",
+    processing_of_scene_changes = "Repeat frame",
+    duplicate_frames_removal = "Do not remove",
+    gpu_acceleration = "Allow",
+    gpu_id = "Do not change",
+    processing_threads = "Do not change",
+    json_super = "",
+    json_analyse = "",
+    json_smoothfps = "",
+}
+require "mp.options".read_options(config)
 
 local function update()
     if stopped then return end
@@ -40,10 +75,21 @@ local function toggle()
     if stopped then start() else stop() end    
 end
 
+H:write_json(config_json, config)
 mp.add_hook('on_preloaded', 50, schedule_update)
 mp.observe_property("vo-configured", "native", schedule_update)
 mp.observe_property("display-fps", "native", schedule_update)
 mp.observe_property("osd-width", "native", schedule_update)
 mp.observe_property("osd-height", "native", schedule_update)
 
-mp.add_key_binding("Alt+S", toggle)
+menu = Menu:new({
+    choices = H:read_json(menu_json),
+    config = config,
+    hide_sections = {Overrides = true},
+})
+menu.on_config_changed = function()
+    H:write_json(config_json, config)
+    schedule_update()
+end
+
+mp.add_key_binding("Alt+S", function() menu:open() end)

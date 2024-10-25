@@ -154,7 +154,7 @@
             },
             "Large": {}
         },
-        "Use NVIDIA Optical Flow (64-bit only)": {
+        "Use NVIDIA Optical Flow": {
             "Allow": {},
             "Don't use": {}
         }
