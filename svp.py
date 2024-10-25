@@ -104,8 +104,8 @@ if not hasattr(core,'svp1'):
 if not hasattr(core,'svp2'):
     core.std.LoadPlugin(basedir / "svpflow2_vs.dll")
 
-if options["duplicate_frames_removal"]:
-    clip = core.std.SelectEvery(video_in,2,0).std.Trim(length=5000000)
+if options["duplicate_frames_removal"] == "Remove every other frame":
+    clip = video_in.std.SelectEvery(video_in,2,0).std.Trim(length=5000000)
 else:
     clip = video_in.std.Trim(length=5000000)
 
