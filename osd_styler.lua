@@ -63,11 +63,15 @@ function OSD:item(text)
     return self:color('fef6dd'):bold(text):color('ffffff')
 end
 
+function OSD:gray_item(text)
+    return self:color('aaaaaa'):bold(text):color('ffffff')
+end
+
 function OSD:selected(text)
     return self:color('48a868'):bold(text):color('ffffff')
 end
 
-function OSD:arrow(text)
+function OSD:gray(text)
     return self:color('aaaaaa'):append(text):color('ffffff')
 end
 

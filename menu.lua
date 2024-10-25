@@ -55,7 +55,7 @@ function Menu:make_osd()
         for _, option in ipairs(section[2]) do
             local name = option[1]
             local value = self.config[H:snake_case(name)]
-            local skip = false
+            local ineffective = false
             local modified = ""
             
             if value ~= self.defaults[H:snake_case(name)] then
@@ -64,16 +64,19 @@ function Menu:make_osd()
             
             if self.config.frame_interpolation_mode ~= "Adaptive" then
                 if name == "Adaptive pattern" then
-                    skip = true
+                    ineffective = true
                 end
             end
 
-            if self.selected == i and not skip then
-                osd:tab():selected(name):yellow(modified):arrow('　🡠 ')
-                    :selected(value):arrow(' 🡢'):newline()
-            elseif not skip then
-                osd:tab():item(name):yellow(modified):arrow('　🡠 '):text(value)
-                    :arrow(' 🡢'):newline()
+            if self.selected == i then
+                osd:tab():selected(name):yellow(modified):gray('　🡠 ')
+                    :selected(value):gray(' 🡢'):newline()
+            elseif ineffective then
+                osd:tab():gray_item(name):yellow(modified)
+                    :gray('　🡠 '):gray(value):gray(' 🡢'):newline()
+            else
+                osd:tab():item(name):yellow(modified):gray('　🡠 '):text(value)
+                    :gray(' 🡢'):newline()
             end
             i = i + 1
         end
