@@ -34,6 +34,7 @@ local config = {
     json_analyse = "",
     json_smoothfps = "",
 }
+local defaults = H:shallow_copy(config)
 require "mp.options".read_options(config)
 
 local function update()
@@ -93,6 +94,7 @@ mp.observe_property("osd-height", "native", schedule_update)
 menu = Menu:new({
     choices = H:read_json(menu_json),
     config = config,
+    defaults = defaults,
     keybindings = {
         {keys = {"SPACE"}, fn = function(self) toggle(); self:close() end},
         {keys = {"s", "ctrl+s"}, fn = function(self) save(); self:close() end},

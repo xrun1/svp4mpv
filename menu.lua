@@ -21,11 +21,15 @@ local base_keybindings = {
         keys = {'l', 'right'},
         fn = function(self) self:change_selected_value(1) end,
     },
-    -- TODO: reset value key
+    {
+        keys = {'r'},
+        fn = function(self) self:reset_selected_value() end,
+    },
 }
 local Menu = {
     choices = {},
     config = {},
+    defaults = {},
     keybindings = {},
     active = false,
     selected = 1,
@@ -70,6 +74,7 @@ function Menu:make_osd()
         end
     end
 
+    osd:newline():text("[r] Reset selected")
     osd:newline():text("[s] Save settings")
     osd:newline():text("[SPACE] Toggle SVP")
     return osd
@@ -160,6 +165,23 @@ function Menu:change_selected_value(step)
                 local idx = H:index_of(option[2], value_now)
                 local new_idx = H:cycle(idx, #option[2], step)
                 self.config[H:snake_case(name)] = option[2][new_idx]
+                self:on_config_changed()
+            end
+            i = i + 1
+        end
+    end
+
+    self:update()
+end
+
+function Menu:reset_selected_value()
+    local i = 1
+
+    for _, section in ipairs(self.choices) do
+        for _, option in ipairs(section[2]) do
+            if i == self.selected then
+                local name = H:snake_case(option[1])
+                self.config[name] = self.defaults[name]
                 self:on_config_changed()
             end
             i = i + 1

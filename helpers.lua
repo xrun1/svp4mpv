@@ -14,6 +14,14 @@ function Helpers:on_windows()
     return Helpers:path_sep() == "\\"
 end
 
+function Helpers:shallow_copy(t)
+    local t2 = {}
+    for k,v in pairs(t) do
+        t2[k] = v
+    end
+    return t2
+end
+
 function Helpers:index_of(array, key) 
     for i, key2 in ipairs(array) do
         if key2 == key then
