@@ -75,6 +75,14 @@ local function toggle()
     if stopped then start() else stop() end    
 end
 
+local function save()
+    local data = ""
+    for key, value in pairs(config) do
+        data = data .. key .. "=" .. value .. "\n"
+    end
+    f = H:write_file(H:exp("~~home/script-opts/svp.conf"), data)    
+end
+
 H:write_json(config_json, config)
 mp.add_hook('on_preloaded', 50, schedule_update)
 mp.observe_property("vo-configured", "native", schedule_update)
@@ -86,7 +94,8 @@ menu = Menu:new({
     choices = H:read_json(menu_json),
     config = config,
     keybindings = {
-        {keys = {"SPACE"}, fn = function(self) toggle(); self:close() end }
+        {keys = {"SPACE"}, fn = function(self) toggle(); self:close() end},
+        {keys = {"s", "ctrl+s"}, fn = function(self) save(); self:close() end},
     }
 })
 menu.on_config_changed = function()

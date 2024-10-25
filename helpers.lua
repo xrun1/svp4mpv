@@ -44,10 +44,14 @@ function Helpers:read_json(path)
     return assert(utils.parse_json(data))
 end
 
-function Helpers:write_json(path, table)
+function Helpers:write_file(path, data)
     local f = assert(io.open(Helpers:exp(path), "w"))
-    f:write(assert(utils.format_json(table)))
+    f:write(data)
     f:close()
+end
+
+function Helpers:write_json(path, table)
+    Helpers:write_file(path, assert(utils.format_json(table)))
 end
 
 return Helpers

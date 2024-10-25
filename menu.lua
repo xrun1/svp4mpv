@@ -70,7 +70,8 @@ function Menu:make_osd()
         end
     end
 
-    osd:newline():text("[Space] Toggle SVP")
+    osd:newline():text("[s] Save settings")
+    osd:newline():text("[SPACE] Toggle SVP")
     return osd
 end
 
