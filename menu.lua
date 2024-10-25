@@ -70,7 +70,7 @@ function Menu:make_osd()
         end
     end
 
-    -- TODO: bindings section
+    osd:newline():text("[Space] Toggle SVP")
     return osd
 end
 

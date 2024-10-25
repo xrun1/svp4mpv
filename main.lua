@@ -85,6 +85,9 @@ mp.observe_property("osd-height", "native", schedule_update)
 menu = Menu:new({
     choices = H:read_json(menu_json),
     config = config,
+    keybindings = {
+        {keys = {"SPACE"}, fn = function(self) toggle(); self:close() end }
+    }
 })
 menu.on_config_changed = function()
     H:write_json(config_json, config)
