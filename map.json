@@ -39,7 +39,7 @@
             "Adaptive": {},
             "Uniform (max fluidity)": {"smoothfps": {"scene": {"mode": 0}}}
         },
-        "Adaptative pattern": {
+        "Adaptive pattern": {
             "Uniform - 1m - 1.5m": {},
             "Uniform - 1m - 2m": {"smoothfps": {"scene": {"adaptive": 310}}},
             "1m - 1.5m - 2m": {"smoothfps": {"scene": {"adaptive": 321}}},

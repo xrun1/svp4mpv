@@ -55,7 +55,7 @@ function Menu:make_osd()
             local skip = false
             
             if self.config.frame_interpolation_mode ~= "Adaptive" then
-                if name == "Adaptative pattern" then
+                if name == "Adaptive pattern" then
                     skip = true
                 end
             end
