@@ -85,7 +85,6 @@ mp.observe_property("osd-height", "native", schedule_update)
 menu = Menu:new({
     choices = H:read_json(menu_json),
     config = config,
-    hide_sections = {Overrides = true},
 })
 menu.on_config_changed = function()
     H:write_json(config_json, config)

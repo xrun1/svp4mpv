@@ -27,7 +27,6 @@ local Menu = {
     choices = {},
     config = {},
     keybindings = {},
-    hide_sections = {},
     active = false,
     selected = 1,
     overlay = mp.create_osd_overlay and mp.create_osd_overlay('ass-events'),
