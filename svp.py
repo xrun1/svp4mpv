@@ -51,20 +51,22 @@ to_fps = src_fps
 screen_fps = display_fps or 60
 
 if fa == "Video FPS":
-    if fb == "Auto":
+    if str(fb).startswith("Auto"):
         factor = 1
         while src_fps * factor < screen_fps - 9:
             factor += 1
 
         to_fps = src_fps * factor
+        if fb == "Auto (respect vsync)":
+            to_fps = min(to_fps, screen_fps)
     else:
         to_fps = src_fps * float(fb)
 elif fa == "Screen FPS":
-    if fb == "Auto":
+    if str(fb).startswith("Auto"):
         fb = "1"
     to_fps = screen_fps * float(fb)
 else:
-    if fb == "Auto":
+    if str(fb).startswith("Auto"):
         fb = "1"
     to_fps = float(fa.split(" FPS")[0]) * float(fb)
     

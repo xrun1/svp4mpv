@@ -13,7 +13,7 @@ end
 
 local config = {
     multiplicand = "Video FPS",
-    multiplier = "Auto",
+    multiplier = "Auto (respect vsync)",
     frame_interpolation_mode = "Adaptive",
     adaptive_pattern = "Uniform - 1m - 1.5m",
     svp_shader = "13. Standard",

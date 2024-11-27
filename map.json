@@ -17,6 +17,7 @@
             "240 FPS": {}
         },
         "Multiplier": {
+            "Auto (respect vsync)": {},
             "Auto": {},
             "1": {},
             "2": {},
