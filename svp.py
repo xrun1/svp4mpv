@@ -42,7 +42,7 @@ for section, opts in map.items():
             deep_merge(choices[choice], raw)
 
 if options["gpu_id"] != "Do not change":
-    raw["smoothfps"]["gpuid"] = options["gpu_id"]
+    raw["smoothfps"]["gpuid"] = int(options["gpu_id"])
 
 src_fps = cast(float, container_fps)
 if src_fps <= 0.1 or src_fps == 23.810:
