@@ -1,17 +1,20 @@
 import json
 import os
 from pathlib import Path
+from typing import Any, cast
 import vapoursynth as vs
-from contextlib import suppress
 
-def deep_merge(source: dict, destination: dict) -> dict:
+# Menu category > option name > possible choice > SVPFlow options
+ConfigMap = dict[str, dict[str, dict[str, dict[str, Any]]]] 
+
+
+def deep_merge(source: dict[Any, Any], destination: dict[Any, Any]) -> None:
     for key, value in source.items():
         if isinstance(value, dict):
             node = destination.setdefault(key, {})
-            deep_merge(value, node)
+            deep_merge(cast(dict[Any,Any], value), node)
         else:
             destination[key] = value
-    return destination
 
 def snake_case(name: str) -> str:
     return name.replace(" ", "_").lower()
@@ -25,14 +28,14 @@ else:
     menu_json = Path(os.environ["TMPDIR"] or "/tmp") / "svp_menu.json"
     config_json = Path(os.environ["TMPDIR"] or "/tmp") / "svp_config.json"
 
-win_w, win_h = display_res
+win_w, win_h = cast(tuple[int, int], display_res)
 #win_w, win_h = user_data.split("/")
 #win_w, win_h = int(win_w), int(win_h)
 
-options = json.loads(config_json.read_text())
-map = json.loads((basedir / "map.json").read_text())
+options: dict[str, str] = json.loads(config_json.read_text())
+map: ConfigMap = json.loads((basedir / "map.json").read_text())
 
-raw = {}
+raw: dict[str, dict[str, Any]] = {}
 for section, opts in map.items():
     for name, choices in opts.items():
         if (choice := options.get(snake_case(name))):
@@ -41,14 +44,14 @@ for section, opts in map.items():
 if options["gpu_id"] != "Do not change":
     raw["smoothfps"]["gpuid"] = options["gpu_id"]
 
-src_fps = container_fps
+src_fps = cast(float, container_fps)
 if src_fps <= 0.1 or src_fps == 23.810:
     src_fps = 23.976
     
 fa = options["multiplicand"]
 fb = options["multiplier"]
 to_fps = src_fps
-screen_fps = display_fps or 60
+screen_fps = cast(float, display_fps) or 60
 
 if fa == "Video FPS":
     if str(fb).startswith("Auto"):
@@ -84,12 +87,13 @@ deep_merge({
     "smoothfps": json.loads(options["json_smoothfps"] or "{}"),
 }, raw)
 
-menu_options = []
+# [(categoryName, [(optionName, [value, ...]), ...]), ...]
+menu_options: list[tuple[str, list[tuple[str, list[str]]]]] = []
 for section, stuff in map.items():
     if section == "Overrides":
         continue
-    opts = [[opt, list(choices)] for opt, choices in stuff.items()]
-    menu_options.append([section, opts])
+    opts = [(opt, list(choices)) for opt, choices in stuff.items()]
+    menu_options.append((section, opts))
 
 menu_json.write_text(json.dumps(menu_options, indent=4))
 
