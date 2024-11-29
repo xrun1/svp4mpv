@@ -31,11 +31,13 @@ local Menu = {
     config = {},
     defaults = {},
     keybindings = {},
-    active = false,
+    update_timer = nil,
     selected = 1,
     overlay = mp.create_osd_overlay and mp.create_osd_overlay('ass-events'),
     base_keybindings = base_keybindings,
 }
+
+local update_timer = nil
 
 function Menu:new(o)
     o = o or {}
@@ -85,11 +87,25 @@ function Menu:make_osd()
     osd:newline():text("[s] Save settings")
         :tab():text(" [r] Reset selected")
         :tab():text(" [SPACE] Toggle SVP")
+
+    local s = function(v) 
+        if (v == "" or v == "0" or v == nil) then return "0" end
+        return v:gsub("%.?0+$", "")
+    end  
+    osd:newline():gray("Screen FPS: " .. s(mp.get_property("display-fps")))
+        :tab():gray("Original FPS: " .. s(mp.get_property("container-fps")))
+        :tab():gray("Current FPS: " .. s(mp.get_property("estimated-vf-fps")))
+        :tab():gray("Dropped frames (decoder/output): " ..
+            s(mp.get_property("decoder-frame-drop-count")) .. "/" ..
+            s(mp.get_property("frame-drop-count"))
+        )
+
+        
     return osd
 end
 
 function Menu:update()
-    if self.active == false then return end
+    if self.update_timer == nil then return end
     self.overlay.data = self:make_osd():get_text()
     self.overlay:update()
 end
@@ -122,7 +138,7 @@ function Menu:open()
         return
     end
 
-    if self.active == true then
+    if self.update_timer ~= nil then
         self:close()
         return
     end
@@ -130,12 +146,12 @@ function Menu:open()
     add_keybinds(self.base_keybindings, self)
     add_keybinds(self.keybindings, self)
 
-    self.active = true
+    self.update_timer = mp.add_periodic_timer(1, function() self:update() end)
     self:update()
 end
 
 function Menu:close()
-    if self.active == false then
+    if self.update_timer == nil then
         return
     end
 
@@ -143,7 +159,7 @@ function Menu:close()
     remove_keybinds(self.keybindings, self)
 
     self.overlay:remove()
-    self.active = false
+    self.update_timer = nil
 end
 
 function Menu:selectable_count()
