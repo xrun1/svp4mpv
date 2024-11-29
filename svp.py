@@ -45,7 +45,7 @@ if options["gpu_id"] != "Do not change":
     raw["smoothfps"]["gpuid"] = int(options["gpu_id"])
 
 src_fps = cast(float, container_fps)
-if src_fps <= 0.1 or src_fps == 23.810:
+if src_fps <= 0.1 or round(src_fps, 2) == 23.81:
     src_fps = 23.976
     
 fa = options["multiplicand"]
