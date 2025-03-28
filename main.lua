@@ -3,6 +3,7 @@ local Menu = require('menu')
 
 local timer = nil
 local stopped = false
+local menu = nil
 
 local menu_json = (os.getenv("TMPDIR") or "/tmp") .. "/svp_menu.json"
 local config_json = (os.getenv("TMPDIR") or "/tmp") .. "/svp_config.json"
@@ -91,18 +92,27 @@ mp.observe_property("display-fps", "native", schedule_update)
 mp.observe_property("osd-width", "native", schedule_update)
 mp.observe_property("osd-height", "native", schedule_update)
 
-menu = Menu:new({
-    choices = H:read_json(menu_json),
-    config = config,
-    defaults = defaults,
-    keybindings = {
-        {keys = {"SPACE"}, fn = function(self) toggle(); self:close() end},
-        {keys = {"s", "ctrl+s"}, fn = function(self) save(); self:close() end},
-    }
-})
-menu.on_config_changed = function()
-    H:write_json(config_json, config)
-    schedule_update()
-end
-
-mp.add_key_binding("Alt+S", function() menu:open() end)
+mp.add_key_binding("Alt+S", function()
+    if menu == nil then
+        menu = Menu:new({
+            choices = H:read_json(menu_json),
+            config = config,
+            defaults = defaults,
+            keybindings = {
+                {
+                    keys = {"SPACE"}, 
+                    fn = function(self) toggle(); self:close() end
+                },
+                {
+                    keys = {"s", "ctrl+s"},
+                    fn = function(self) save(); self:close() end
+                },
+            }
+        })
+        menu.on_config_changed = function()
+            H:write_json(config_json, config)
+            schedule_update()
+        end
+    end
+    menu:open()
+end)
