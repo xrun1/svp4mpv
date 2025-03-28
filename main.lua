@@ -66,11 +66,13 @@ end
 local function stop()
     stopped = true
     mp.commandv("vf", "remove", "@svp")
+    mp.osd_message("SVP Off")
 end
 
 local function start()
     stopped = false
     update()
+    mp.osd_message("SVP On")
 end
 
 local function toggle()
