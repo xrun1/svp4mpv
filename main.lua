@@ -2,7 +2,7 @@ local H = require('helpers')
 local Menu = require('menu')
 
 local timer = nil
-local stopped = false
+local stopped = true
 local menu = nil
 
 local menu_json = (os.getenv("TMPDIR") or "/tmp") .. "/svp_menu.json"
