@@ -63,6 +63,11 @@ local function schedule_update()
     timer = mp.add_timeout(0.25, update)
 end
 
+local function new_file_print_state()
+    if stopped then return end
+    mp.osd_message("SVP On")
+end
+
 local function stop()
     stopped = true
     mp.commandv("vf", "remove", "@svp")
@@ -89,6 +94,7 @@ end
 
 H:write_json(config_json, config)
 mp.add_hook('on_preloaded', 50, schedule_update)
+mp.add_hook('on_preloaded', 49, new_file_print_state)
 mp.observe_property("vo-configured", "native", schedule_update)
 mp.observe_property("display-fps", "native", schedule_update)
 mp.observe_property("osd-width", "native", schedule_update)
