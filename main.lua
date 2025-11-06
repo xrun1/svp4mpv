@@ -1,6 +1,7 @@
 local H = require('helpers')
 local Menu = require('menu')
 
+local first_start_timer = nil
 local timer = nil
 local stopped = true
 local menu = nil
@@ -81,7 +82,7 @@ local function start()
 end
 
 local function toggle()
-    if stopped then start() else stop() end    
+    if stopped then start() else stop() end
 end
 
 local function save()
@@ -89,18 +90,10 @@ local function save()
     for key, value in pairs(config) do
         data = data .. key .. "=" .. value .. "\n"
     end
-    f = H:write_file(H:exp("~~home/script-opts/svp.conf"), data)    
+    f = H:write_file(H:exp("~~home/script-opts/svp.conf"), data)
 end
 
-H:write_json(config_json, config)
-mp.add_hook('on_preloaded', 50, schedule_update)
-mp.add_hook('on_preloaded', 49, new_file_print_state)
-mp.observe_property("vo-configured", "native", schedule_update)
-mp.observe_property("display-fps", "native", schedule_update)
-mp.observe_property("osd-width", "native", schedule_update)
-mp.observe_property("osd-height", "native", schedule_update)
-
-mp.add_key_binding("Alt+S", function()
+local function show_menu()
     if menu == nil then
         menu = Menu:new({
             choices = H:read_json(menu_json),
@@ -108,7 +101,7 @@ mp.add_key_binding("Alt+S", function()
             defaults = defaults,
             keybindings = {
                 {
-                    keys = {"SPACE"}, 
+                    keys = {"SPACE"},
                     fn = function(self) toggle(); self:close() end
                 },
                 {
@@ -123,4 +116,27 @@ mp.add_key_binding("Alt+S", function()
         end
     end
     menu:open()
+end
+
+H:write_json(config_json, config)
+mp.add_hook('on_preloaded', 50, schedule_update)
+mp.add_hook('on_preloaded', 49, new_file_print_state)
+mp.observe_property("vo-configured", "native", schedule_update)
+mp.observe_property("display-fps", "native", schedule_update)
+mp.observe_property("osd-width", "native", schedule_update)
+mp.observe_property("osd-height", "native", schedule_update)
+
+mp.add_key_binding("Alt+S", "svp-menu", function()
+    if H:file_exists(menu_json) then
+        show_menu()
+    else
+        start()
+        first_start_timer = mp.add_periodic_timer(0.1, function()
+            if H:file_exists(menu_json) then
+                first_start_timer:stop()
+                stop()
+                show_menu()
+            end
+        end)
+    end
 end)

@@ -22,7 +22,7 @@ function Helpers:shallow_copy(t)
     return t2
 end
 
-function Helpers:index_of(array, key) 
+function Helpers:index_of(array, key)
     for i, key2 in ipairs(array) do
         if key2 == key then
             return i
@@ -43,6 +43,13 @@ end
 
 function Helpers:snake_case(name)
     return name:gsub(" ", "_"):lower()
+end
+
+function Helpers:file_exists(path)
+    local f = io.open(path, "r")
+    if f == nil then return false end
+    io.close(f)
+    return true
 end
 
 function Helpers:read_json(path)
