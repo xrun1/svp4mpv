@@ -35,8 +35,8 @@ should be the case.
 
 ## Usage
 
-Press Alt+Shift+S to open the menu. While the menu is open, press Space to
-toggle SVP on or off.
+Press Alt+Shift+S to open the menu, navigate with the arrow keys.
+While the menu is open, press Space to toggle SVP on or off.
 
 More details about the options can be found on the
 [SVP wiki](https://www.svp-team.com/wiki/Manual:FRC#Manual_Options_Selection).
