@@ -160,6 +160,56 @@
             "Don't use": {}
         }
     },
+    "Black bars": {
+        "Fill with light": {"Enabled": {}, "Disabled": {}},
+        "Lights count": {
+            "2": {"smoothfps": {"light": {"lights": 2}}},
+            "4": {"smoothfps": {"light": {"lights": 4}}},
+            "6": {"smoothfps": {"light": {"lights": 6}}},
+            "8": {"smoothfps": {"light": {"lights": 8}}},
+            "12": {"smoothfps": {"light": {"lights": 12}}},
+            "16": {"smoothfps": {"light": {"lights": 16}}},
+            "24": {"smoothfps": {"light": {"lights": 24}}},
+            "32": {"smoothfps": {"light": {"lights": 32}}},
+            "48": {"smoothfps": {"light": {"lights": 48}}},
+            "64": {"smoothfps": {"light": {"lights": 64}}},
+            "128": {"smoothfps": {"light": {"lights": 128}}}
+        },
+        "Flare length": {
+            "25": {"smoothfps": {"light": {"length": 25}}},
+            "50": {"smoothfps": {"light": {"length": 50}}},
+            "75": {"smoothfps": {"light": {"length": 75}}},
+            "100": {"smoothfps": {"light": {"length": 100}}},
+            "125": {"smoothfps": {"light": {"length": 125}}},
+            "150": {"smoothfps": {"light": {"length": 150}}},
+            "175": {"smoothfps": {"light": {"length": 175}}},
+            "200": {"smoothfps": {"light": {"length": 200}}}
+        },
+        "Flare width": {
+            "0.5": {"smoothfps": {"light": {"cell": 0.5}}},
+            "1.0": {"smoothfps": {"light": {"cell": 1.0}}},
+            "1.5": {"smoothfps": {"light": {"cell": 1.5}}},
+            "2.0": {"smoothfps": {"light": {"cell": 2.0}}},
+            "3.0": {"smoothfps": {"light": {"cell": 3.0}}},
+            "4.0": {"smoothfps": {"light": {"cell": 4.0}}},
+            "5.0": {"smoothfps": {"light": {"cell": 5.0}}}
+        },
+        "Border": {
+            "1": {"smoothfps": {"light": {"border": 1}}},
+            "2": {"smoothfps": {"light": {"border": 2}}},
+            "4": {"smoothfps": {"light": {"border": 4}}},
+            "6": {"smoothfps": {"light": {"border": 6}}},
+            "8": {"smoothfps": {"light": {"border": 8}}},
+            "10": {"smoothfps": {"light": {"border": 10}}},
+            "12": {"smoothfps": {"light": {"border": 12}}},
+            "16": {"smoothfps": {"light": {"border": 16}}},
+            "24": {"smoothfps": {"light": {"border": 24}}},
+            "32": {"smoothfps": {"light": {"border": 32}}},
+            "48": {"smoothfps": {"light": {"border": 48}}},
+            "64": {"smoothfps": {"light": {"border": 64}}},
+            "128": {"smoothfps": {"light": {"border": 128}}}
+        }
+    },
     "Miscellaneous": {
         "Processing of scene changes": {
             "Repeat frame": {},

@@ -48,7 +48,7 @@ end
 
 function Menu:make_osd()
     --local osd = OSD:new():size(config.menu_font_size):align(4) -- TODO
-    local osd = OSD:new():size(24):align(4)
+    local osd = OSD:new():size(20):align(4)
     local i = 1
 
     for _, section in ipairs(self.choices) do
@@ -59,11 +59,11 @@ function Menu:make_osd()
             local value = self.config[H:snake_case(name)]
             local ineffective = false
             local modified = ""
-            
+
             if value ~= self.defaults[H:snake_case(name)] then
                 modified = "*"
             end
-            
+
             if self.config.frame_interpolation_mode ~= "Adaptive" then
                 if name == "Adaptive pattern" then
                     ineffective = true
@@ -88,10 +88,10 @@ function Menu:make_osd()
         :tab():text(" [r] Reset selected")
         :tab():text(" [SPACE] Toggle SVP")
 
-    local s = function(v) 
+    local s = function(v)
         if (v == "" or v == "0" or v == nil) then return "0" end
         return v:gsub("%.?0+$", "")
-    end  
+    end
     osd:newline():gray("Screen FPS: " .. s(mp.get_property("display-fps")))
         :tab():gray("Original FPS: " .. s(mp.get_property("container-fps")))
         :tab():gray("Current FPS: " .. s(mp.get_property("estimated-vf-fps")))
@@ -100,7 +100,7 @@ function Menu:make_osd()
             s(mp.get_property("frame-drop-count"))
         )
 
-        
+
     return osd
 end
 
@@ -126,7 +126,7 @@ local function add_keybinds(keybinds, menu)
 end
 
 local function remove_keybinds(keybinds, menu)
-    process_keybinds(keybinds, function(key, fn) 
+    process_keybinds(keybinds, function(key, fn)
         mp.remove_key_binding(key)
     end)
 end
@@ -166,7 +166,7 @@ function Menu:selectable_count()
     local count = 0
     local st = ""
     for _, section in ipairs(self.choices) do
-        for _, option in ipairs(section[2]) do 
+        for _, option in ipairs(section[2]) do
             count = count + 1
         end
     end

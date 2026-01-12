@@ -41,6 +41,9 @@ for section, opts in map.items():
         if (choice := options.get(snake_case(name))):
             deep_merge(choices[choice], raw)
 
+if options["fill_with_light"] == "Disabled":
+    raw["smoothfps"]["light"] = {"lights": 2, "length": 0, "aspect": 1.7778}
+
 src_fps = cast(float, container_fps)
 if src_fps <= 0.1 or round(src_fps, 2) == 23.81:
     src_fps = 23.976
@@ -131,6 +134,19 @@ smooth = core.svp2.SmoothFps(
     input_m, super["clip"], super["data"], vectors["clip"], vectors["data"],
     json.dumps(raw["smoothfps"]), src=input_um, fps=src_fps,
 )
+
+if options["fill_with_light"] == "Disabled":
+    delta_w = smooth.width - clip.width
+    delta_h = smooth.height - clip.height
+    if delta_w or delta_h:
+        left = delta_w // 2
+        right = delta_w - left
+        top = delta_h // 2
+        bottom = delta_h - top
+        smooth = core.std.Crop(
+            smooth, left=left, right=right, top=top, bottom=bottom,
+        )
+
 assume = core.std.AssumeFPS(
     smooth, fpsnum=smooth.fps_num, fpsden=smooth.fps_den,
 )
