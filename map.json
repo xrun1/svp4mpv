@@ -109,8 +109,8 @@
         "Search radius": {
             "Small and fast": {
                 "analyse": {"main": {"search": {"coarse": {
-                    "satd": false, 
-                    "type": 2, 
+                    "satd": false,
+                    "type": 2,
                     "distance": -6
                 }}}}
             },
@@ -173,14 +173,25 @@
             "Allow": {"super": {"gpu": 1}},
             "Disable": {}
         },
-        "GPU ID": {"Do not change": {}},
+        "GPU ID": {
+            "Default (use first available)": {},
+            "1st GPU on 1st OpenCL platform": {"smoothfps": {"gpuid": 11}},
+            "2nd GPU on 1st OpenCL platform": {"smoothfps": {"gpuid": 12}},
+            "3rd GPU on 1st OpenCL platform": {"smoothfps": {"gpuid": 13}},
+            "1st GPU on 2nd OpenCL platform": {"smoothfps": {"gpuid": 21}},
+            "2nd GPU on 2nd OpenCL platform": {"smoothfps": {"gpuid": 22}},
+            "3rd GPU on 2nd OpenCL platform": {"smoothfps": {"gpuid": 23}},
+            "1st GPU on 3rd OpenCL platform": {"smoothfps": {"gpuid": 31}},
+            "2nd GPU on 3rd OpenCL platform": {"smoothfps": {"gpuid": 32}},
+            "3rd GPU on 3rd OpenCL platform": {"smoothfps": {"gpuid": 33}}
+        },
         "Processing threads": {
-            "-6": {}, 
-            "-4": {}, 
-            "-2": {}, 
+            "-6": {},
+            "-4": {},
+            "-2": {},
             "Do not change": {},
-            "+2": {}, 
-            "+4": {}, 
+            "+2": {},
+            "+4": {},
             "+6": {}
         }
     }

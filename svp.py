@@ -5,7 +5,7 @@ from typing import Any, cast
 import vapoursynth as vs
 
 # Menu category > option name > possible choice > SVPFlow options
-ConfigMap = dict[str, dict[str, dict[str, dict[str, Any]]]] 
+ConfigMap = dict[str, dict[str, dict[str, dict[str, Any]]]]
 
 
 def deep_merge(source: dict[Any, Any], destination: dict[Any, Any]) -> None:
@@ -41,13 +41,10 @@ for section, opts in map.items():
         if (choice := options.get(snake_case(name))):
             deep_merge(choices[choice], raw)
 
-if options["gpu_id"] != "Do not change":
-    raw["smoothfps"]["gpuid"] = int(options["gpu_id"])
-
 src_fps = cast(float, container_fps)
 if src_fps <= 0.1 or round(src_fps, 2) == 23.81:
     src_fps = 23.976
-    
+
 fa = options["multiplicand"]
 fb = options["multiplier"]
 to_fps = src_fps
@@ -72,7 +69,7 @@ else:
     if str(fb).startswith("Auto"):
         fb = "1"
     to_fps = float(fa.split(" FPS")[0]) * float(fb)
-    
+
 raw["smoothfps"].setdefault("rate", {}).update({
     "num": to_fps * 10_000,
     "den": 10_000,
