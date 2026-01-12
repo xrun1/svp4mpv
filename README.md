@@ -32,6 +32,10 @@ Your mpv build must support VapourSynth.
 If you're using [mpv.net](https://github.com/mpvnet-player/mpv.net), this
 should be the case.
 
+Add the following to your mpv.conf to prevent desyncs when seeking:
+
+    hr-seek-framedrop=no
+
 
 ## Usage
 
