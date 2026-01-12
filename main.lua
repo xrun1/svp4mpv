@@ -106,7 +106,7 @@ local function show_menu()
             defaults = defaults,
             keybindings = {
                 {
-                    keys = {"SPACE"},
+                    keys = {"ENTER", "KP_ENTER"},
                     fn = function(self) toggle(); self:close() end
                 },
                 {

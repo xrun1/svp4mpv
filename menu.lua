@@ -86,7 +86,7 @@ function Menu:make_osd()
 
     osd:newline():text("[s] Save settings")
         :tab():text(" [r] Reset selected")
-        :tab():text(" [SPACE] Toggle SVP")
+        :tab():text(" [Enter] Toggle SVP")
 
     local s = function(v)
         if (v == "" or v == "0" or v == nil) then return "0" end

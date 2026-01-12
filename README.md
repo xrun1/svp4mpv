@@ -4,7 +4,7 @@ An mpv script for Windows that provides [SVP](https://www.svp-team.com/)
 frame interpolation without having to use the official GUI.
 Comes with a menu for direct control:
 
-![Screenshot](./screenshot.png)
+![Screenshot](./screenshot.jpg)
 
 SVP converts any video to 60+ FPS in real time as you watch it, with GPU
 acceleration supported. It can also fill black bars with lights when
@@ -36,7 +36,7 @@ should be the case.
 ## Usage
 
 Press Alt+Shift+S to open the menu, navigate with the arrow keys.
-While the menu is open, press Space to toggle SVP on or off.
+While the menu is open, press Enter to toggle SVP on or off.
 
 More details about the options can be found on the
 [SVP wiki](https://www.svp-team.com/wiki/Manual:FRC#Manual_Options_Selection).
