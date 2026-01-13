@@ -36,6 +36,10 @@ Add the following to your mpv.conf to prevent desyncs when seeking:
 
     hr-seek-framedrop=no
 
+Hardware-accelerated video playback requires using a `-copy` decoder, e.g.
+
+    hwdec=d3d11va-copy
+
 
 ## Usage
 
@@ -62,3 +66,14 @@ using a 2x integer multiplier and getting only 48 FPS.
 
 Most 60hz monitors can be easily overclocked to at least 72hz,
 which will make a noticeable difference for SVP.
+
+If you have multiple monitors with different framerates, you may need to
+use mpv in full screen to avoid dropped frames.
+
+
+## Known issues
+
+- Kaspersky "System Watcher": this feature has been known
+  to make CPU usage shoot up while playing videos with SVP in full screen,
+  causing lots of dropped frames. Disabling it solved the issue.
+  This may have been fixed in more recent versions.
