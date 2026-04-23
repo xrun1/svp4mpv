@@ -12,7 +12,8 @@ the monitor's aspect ratio and the video's differ.
 
 This script makes use of the last SVPFlow DLL versions that could
 be extracted from the demo and used without requiring the GUI to be running.
-The license found in this repository does not apply to any included DLL files.
+The *LICENSE.txt* in this repository does not cover the files in the
+*third_party* directory.
 
 Not implemented:
 - Basic performance-quality slider (from looking at the original GUI's

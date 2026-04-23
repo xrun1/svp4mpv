@@ -6,7 +6,7 @@ License: GNU GPL, version 3 or later; https://www.gnu.org/licenses/gpl-3.0.html
 local mp = require('mp')
 local utils = require('mp.utils')
 local H = require('helpers')
-local OSD = require('osd_styler')
+local OSD = require('third_party.osd_styler')
 
 local base_keybindings = {
     {keys = {'ESC', 'q'}, fn = function(self) self:close() end},

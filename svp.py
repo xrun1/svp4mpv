@@ -106,9 +106,9 @@ if thread_opt != "Do not change":
     core.num_threads += int(thread_opt)
 
 if not hasattr(core,'svp1'):
-    core.std.LoadPlugin(basedir / "svpflow1_vs.dll")
+    core.std.LoadPlugin(basedir / "third_party" / "svpflow1_vs.dll")
 if not hasattr(core,'svp2'):
-    core.std.LoadPlugin(basedir / "svpflow2_vs.dll")
+    core.std.LoadPlugin(basedir / "third_party" / "svpflow2_vs.dll")
 
 if options["duplicate_frames_removal"] == "Remove every other frame":
     clip = video_in.std.SelectEvery(video_in,2,0).std.Trim(length=5000000)

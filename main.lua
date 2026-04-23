@@ -1,5 +1,5 @@
 local H = require('helpers')
-local Menu = require('menu')
+local Menu = require('third_party.menu')
 
 local first_start_timer = nil
 local timer = nil
