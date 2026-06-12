@@ -33,13 +33,17 @@ Your mpv build must support VapourSynth.
 If you're using [mpv.net](https://github.com/mpvnet-player/mpv.net), this
 should be the case.
 
+As of 2026-06-12: mpv.net v7.1.1.0, which is based on mpv v0.37,
+is confirmed to be working, however v7.1.2.0, which uses a more recent version
+of mpv, crashes when loading any VapourSynth script. If this happens on your
+machine, try downgrading the player.
+
 Add the following to your mpv.conf to prevent desyncs when seeking:
 
     hr-seek-framedrop=no
 
-Hardware-accelerated video playback requires using a `-copy` decoder, e.g.
-
-    hwdec=d3d11va-copy
+If using hardware-accelerated video playback, the `-copy` version of
+the decoder must be used, e.g. `hwdec=d3d11va-copy` instead of `hwdec=d3d11va`.
 
 
 ## Usage
@@ -70,11 +74,3 @@ which will make a noticeable difference for SVP.
 
 If you have multiple monitors with different framerates, you may need to
 use mpv in full screen to avoid dropped frames.
-
-
-## Known issues
-
-- Kaspersky "System Watcher": this feature has been known
-  to make CPU usage shoot up while playing videos with SVP in full screen,
-  causing lots of dropped frames. Disabling it solved the issue.
-  This may have been fixed in more recent versions.
