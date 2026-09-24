@@ -79,7 +79,7 @@ def get_svparams_fps() -> dict[str, Any]:
                 to_fps = min(to_fps, screen_fps)
         else:
             to_fps = container_fps * float(times)
-    elif base == "Screen FPS":
+    elif base == "Screen Hz":
         if str(times).startswith("Auto"):
             times = "1"
         to_fps = screen_fps * float(times)
