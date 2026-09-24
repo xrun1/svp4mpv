@@ -91,6 +91,12 @@ which will make a noticeable difference for SVP.
 If you have multiple monitors with different framerates, you may need to
 use mpv in full screen to avoid dropped frames.
 
+Also note that if mpv is moved to another monitor, or the monitor's refresh
+rate is changed while mpv is open, mpv may stay stick with the old value,
+causing interpolation to target the wrong framerate.
+On laptops, beware of automatic changes on AC un/plugging
+(this can usually be disabled in your graphic chip's control panel).
+
 
 ## Performance Issues
 
