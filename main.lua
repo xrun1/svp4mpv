@@ -46,7 +46,7 @@ local config = {
     json_smoothfps = "",
 }
 local defaults = H:shallow_copy(config)
-require "mp.options".read_options(config)
+require "mp.options".read_options(config, "svp")
 
 local function remove_filter()
     if string.find(mp.get_property("vf"), "@svp") then
