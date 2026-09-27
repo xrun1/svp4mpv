@@ -40,10 +40,11 @@ As of September 2026, these combinations are confirmed to work:
 - **mpv 0.37** or **mpv.net v7.1.1.0** with **VapourSynth R54**
 
 VapourSynth and its dependencies can be set up using the
-corresponding *Install-Portable-VapourSynth-Rxx.bat* from the
+corresponding *Install-Portable-VapourSynth-Rxx* script pair from the
 [releases page](https://github.com/vapoursynth/vapoursynth/releases)
-(R72 direct link [here](https://github.com/vapoursynth/vapoursynth/releases/download/R72/Install-Portable-VapourSynth-R72.bat)).
-A *vapoursynth-portable* folder is created where you run the script.
+(R72 [here](https://github.com/vapoursynth/vapoursynth/releases/tag/R72)).
+Download the corresponding *.ps1* and *.bat*, then run the *.bat*.
+A *vapoursynth-portable* folder will be created.
 To add it to PATH quickly, paste the following in PowerShell
 (replace `C:\vapoursynth-portable` with the actual created folder's path):
 
