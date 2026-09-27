@@ -41,7 +41,7 @@ As of September 2026, these combinations are confirmed to work:
 
 VapourSynth and its dependencies can be set up using the
 corresponding *Install-Portable-VapourSynth-Rxx.bat* from the
-[release page](https://github.com/vapoursynth/vapoursynth/release)
+[releases page](https://github.com/vapoursynth/vapoursynth/releases)
 (R72 direct link [here](https://github.com/vapoursynth/vapoursynth/releases/download/R72/Install-Portable-VapourSynth-R72.bat)).
 A *vapoursynth-portable* folder is created where you run the script.
 To add it to PATH quickly, paste the following in PowerShell
